@@ -1,0 +1,2 @@
+psd_tools>=1.9.30
+pillow>=10.2.0

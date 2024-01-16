@@ -1,0 +1,17 @@
+# FS-UAE configuration saved by FS-UAE Launcher
+# Last saved: 2023-11-29 19:10:35
+
+[fs-uae]
+amiga_model = A3000
+chip_memory = 2048
+cpu = 68040
+hard_drive_0 = AmigaDev
+kickstart_file = Kickstart 3.1 (40.055) (A3000) (Commodore) (1993).rom
+motherboard_ram = 16384
+network_card = a2065
+texture_filter = nearest
+video_sync = full
+scale_x = 2.0
+scale_y = 2.0
+window_width = 1280
+window_height = 1024

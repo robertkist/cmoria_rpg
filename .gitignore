@@ -1,3 +1,10 @@
+.idea/
+build/
+dist/
+venv/
+.DS_Store
+*.pyc
+
 # Prerequisites
 *.d
 

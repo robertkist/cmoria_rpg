@@ -1,13 +1,39 @@
-MIT License
+CMORIA_RPG LICENSE
 
-Copyright (c) 2024 Robert Kist
+Note: This license consist of 2 parts!
+
+=============================================================================
+=== LICENSE START ===
+
+DEFINITIONS:
+
+"Software" - for this document, Software is defined as: the combination of text
+and other characters comprising the content, saved in one or more files, which
+describes sequences of specific actions to be performed by the computer.
+Software comprises all such files which are required to create, either directly
+or indirectly, an executable computer program. In addition, Software comprises
+any text and image based documentation related to the technical nature of the
+Software.
+
+"Artwork" - any creative or artistic work that does not meet the above definition
+of Software, and is saved as files in a format for storing text, images, audio,
+or related data which is in support of processing these formats by the Software.
+
+PART - 1:
+
+Modified MIT License
+Copyright (c) 2024 Robert W. Kist
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
+of the Software and associated documentation files, to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
+
+The above permission does not extend to any creative works - such as visual
+artwork, images, narrative, audio, lore and setting - contained within the
+Software.
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
@@ -19,3 +45,58 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+PART - 2:
+
+CREATIVE WORKS / ARTWORKS - incl. but not limited to visual artwork, images,
+narrative, audio, lore and setting PROTECTED BY U.S. AND INTERNATIONAL
+COPYRIGHT LAW.
+
+COPYRIGHT 2024 BY ROBERT W. KIST.
+
+Explicit permission is given to distribute any creative work, contained with
+this version of the Software, without modification, and together with this
+Software for non-commercial purposes, and that credit is given to the author
+of this Software and its artwork. Modification refers to altering the artwork,
+removing parts of the artwork, or adding addition artwork.
+
+The artwork contained with this version of the Software shall not be
+distributed independently of the Software for any reason without explicit
+permission of the Software's author.
+
+Written, explicit permission from the Software's autor is required to
+distribute any creative work, contained with this version of the Software,
+for any other purposes.
+
+=== LICENSE END ===
+=============================================================================
+
+SUMMARY:
+This summary is intended to give a quick overview of the license. It does not
+supersede the license terms above, and in conflict, the above stated license
+terms prevail.
+
+TLDR;
+- The code and its related tools for building executable software is governed
+  by the Modified MIT license stated above. It can be freely used, both
+  commercially and non commercially following the above restrictions.
+  This means you can take parts of the code, or the entire code, and use it
+  however you want. But you will have to make your own artwork, story, audio,
+  narrative and setting if you want to use it for your own game or similar
+  endeavours.
+- Any artwork is not covered by the MIT license but, instead, by US and
+  international copyright law and the conditions set out above. You can copy
+  and distribute artwork freely with the source code and with compiled versions
+  of the software, as long as it is for non-commercial purposes, credit is
+  given, and the artwork has not been modified. Any exceptions require written
+  permission from the author.
+  This means you cannot sell this game as long as any of the original artwork
+  is included. However, you can freely distribute it - give a copy to your
+  friends, share it on a forum, etc. You can distribute compiled versions
+  independently of the source code - it doesn't have to be included.
+  You are not allowed to modifiy the included artwork and then distribute
+  the game, either for free or for profit.
+
+CONTACT:
+For questions and license waivers, please contact:
+Robert W. Kist (rk@robertkist.com)

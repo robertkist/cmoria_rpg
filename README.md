@@ -24,6 +24,17 @@ This game is a work-in-progress. This repo will contain my efforts to port and c
 - Mac 68k: Retro68 (cross)compiler, Quickdraw graphics
 - Photoshop for the graphics authoring
 
+## Why make this same?
+
+This project is a labor of love: I enjoy coding. I want to learn how to architect a simple non-general-purpose game engine.
+I want to learn how to make different game systems (AI, dialogue, etc.), I want to tell a story, I want to learn how
+to create pixel art, I want to say "I made my own game!", and I want to do it from A-Z.
+
+## Why not use a game engine?
+
+I don't want to tie myself to someone else's technological decisions, including possible deprecation, change of engine
+license terms, upgrade cycles, or other changes.  
+
 ## Why the CMoria Name?
 
 Moria is one of the first rogue-likes with a town level. My aim is to write a game with mechanics similar to Ultima IV/V. Like Moria it has a top-down view, town levels, and I might even add some procedural generation. The C stands for C (the language I'm using) ... or it could stand for cats, which will feature prominently in the story and the lore.
@@ -42,6 +53,20 @@ I just started this repo... It will be added soon(tm)
 - All kinds of melee and ranged weapons
 - A magic and abilities system
 
+## Repo Contents
+
+Included:
+
+- Source code for the game and its toolchain (C, Python)
+- Raw art sources (Photoshop)
+- Developer documentation
+
+Not included:
+
+- Game design documents
+- Prototypes
+- Concept art and reference art
+
 ## Building
 
 - on MacOS: you can build for all platforms except Win, Linux
@@ -51,3 +76,9 @@ I just started this repo... It will be added soon(tm)
 ## Why target Retro-Computers?
 
 Because I can :) The game isn't going to be computationally expensive. If it runs on the playdate, it might just as well run on some early 32-bit platforms. Also, being a collector of some vintage PCs, I thought it would be great to see my own game running on the vintage hardware I own.
+
+## License
+
+This project is a labor of love and therefore I'd like as many fellow (game) developers and players to get value out of it.
+The license covers code and artwork. The code license is very permissible, however, there are some restrictions on the
+artwork.
