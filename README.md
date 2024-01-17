@@ -1,7 +1,7 @@
 # CMoria RPG
 A RPG game with retro graphics for Playdate console, PC, Mac, Linux and retro computers (Amiga, MacOS 7.6 m68k, MS-DOS 386/486 PC).
 
-Our protagonist (yes, it's a cat) demoing the Ultima IV/V style fog-of-war:
+Our protagonist (yes, it's a cat) demoing the Ultima IV/V style fog-of-war (slowed down to show the fading in and out of the fog):
 
 <img src="https://private-user-images.githubusercontent.com/9162068/295592756-a50e11c1-9ab3-4329-b40c-dca6705de9ee.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDU0MTI5MzcsIm5iZiI6MTcwNTQxMjYzNywicGF0aCI6Ii85MTYyMDY4LzI5NTU5Mjc1Ni1hNTBlMTFjMS05YWIzLTQzMjktYjQwYy1kY2E2NzA1ZGU5ZWUuZ2lmP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDExNiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDAxMTZUMTM0MzU3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MzY2YmJhM2EwZTcxOTE5ZGM4ZjM1NGY4MDcwOTliMGU2MzRiMTcwOWMyM2IzOWIwZDZlMjU3MzE2ZWVmYjNhNCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.pOlToh5T6CaK3zS11JfEG_c3sUSfcQDd3bz2Fo_aA_Q">
 
