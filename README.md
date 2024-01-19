@@ -3,7 +3,7 @@ A RPG game with retro graphics for Playdate console, PC, Mac, Linux and retro co
 
 Our protagonist (yes, it's a cat) demoing the Ultima IV/V style fog-of-war (slowed down to show the fading in and out of the fog):
 
-<img src="https://private-user-images.githubusercontent.com/9162068/297983924-d13e6ab7-efd2-4723-ab0f-24c3bb36331c.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDU2NDkzNDEsIm5iZiI6MTcwNTY0OTA0MSwicGF0aCI6Ii85MTYyMDY4LzI5Nzk4MzkyNC1kMTNlNmFiNy1lZmQyLTQ3MjMtYWIwZi0yNGMzYmIzNjMzMWMuZ2lmP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDExOSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDAxMTlUMDcyNDAxWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9M2Y1ODg3YTJmZTcyY2ZmNjQ3Y2ZhNTlmOGQ1ZjIxMGIxYjcwYzYzODVkY2VlY2E5NjEzN2UwMDgxZWI1MzQ2OSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.ZYaNNMV-jbue7_iH4C5PluaGKPH_jHXQYNU_BvBpHN0">
+<img src="https://raw.githubusercontent.com/robertkist/robertkist/main/images/cmoria_01.gif.gif">
 
 The goal is to make a game inspired by early rogue-likes and Richard Garriott's Ultima series (notably Ultima IV, V and a bit of VI). Rather than a straight up clone, this will be an independent game in its own right, drawing inspiration from those titles and adding its own lore, story and looks on top.
 
