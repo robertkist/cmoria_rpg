@@ -41,7 +41,7 @@ Moria is one of the first rogue-likes with a town level. My aim is to write a ga
 
 ## Where's the source code?
 
-I just started this repo... It will be added soon(tm)
+I just started this repo... It will be added soon(tm), or check some of the development branches
 
 ## Planned features
 
