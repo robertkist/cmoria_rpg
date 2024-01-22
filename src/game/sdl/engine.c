@@ -84,6 +84,10 @@ void Engine_freeBitmap(void* bitmap) {
     SDL_FreeSurface((SDL_Surface*)bitmap);
 }
 
+void Engine_setPixel(int x, int y, bool white) {
+    GSDL_setPixel(x, y, white);
+}
+
 char* Engine_loadTextFile(const char* fname) {
 #ifdef DEBUG
     if(access(fname, F_OK) != 0) {

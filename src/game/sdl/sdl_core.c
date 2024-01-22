@@ -181,10 +181,20 @@ void GSDL_close() {
     SDL_Quit();
 }
 
+void GSDL_setPixel(int x, int y, bool white) {
+    Uint32* target_pixel;
+    target_pixel = (Uint32*)((Uint8*)window_framebuffer->pixels
+                             + y * window_framebuffer->pitch
+                             + x * window_framebuffer->format->BytesPerPixel);
+    if (white)
+        *target_pixel = 0xffffffff;
+    else
+        *target_pixel = 0x00000000;
+}
+
 void GSDL_drawRect(int x1, int y1, int width, int height) {
     int x2 = x1 + width - 1;
     int y2 = y1 + height - 1;
-//    printf("%i,%i - %i,%i\n", x1, y1, x2, y2);
     Uint32* target_pixel;
     for (int x = x1; x < x2; x++) {
         target_pixel = (Uint32*)((Uint8*)window_framebuffer->pixels

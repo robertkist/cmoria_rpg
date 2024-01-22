@@ -15,5 +15,6 @@ struct timeval GSDL_getTime();
 void GSDL_stop();
 void GSDL_clearFrame();
 void GSDL_drawRect(int x1, int y1, int width, int height);
+void GSDL_setPixel(int x, int y, bool white);
 
 #endif

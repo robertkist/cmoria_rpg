@@ -33,7 +33,8 @@ INCLUDES="-I$(SDL2_PATH)/include" "-I./include"
 LIBS="-L$(SDL2_PATH)/lib" -lSDL2main -lSDL2 -lstdc++
 
 CFLAGS=-std=c11 -Wall -Wextra -Wconversion -Wshadow -Wstrict-overflow -Wformat=2 \
-       -Wno-unused-parameter -Wundef -fno-common -O2 -Os -Wpedantic -pedantic -Werror -Wno-sign-conversion \
+       -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable \
+       -Wundef -fno-common -O2 -Os -Wpedantic -pedantic -Werror -Wno-sign-conversion \
        -Wno-strict-prototypes -D"LIB_VERSION=\"$(LIB_VERSION)\"" -O3 -fipa-pta -flto -fdevirtualize-at-ltrans \
        -DDEBUG
 

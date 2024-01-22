@@ -35,6 +35,8 @@ void Engine_clearFrame(void);
 unsigned long Engine_getTime(void);
 unsigned long Engine_timeDiff(unsigned long time1, unsigned long time2);
 
+void Engine_setPixel(int x, int y, bool white);
+
 #ifdef __cplusplus
 }
 #endif

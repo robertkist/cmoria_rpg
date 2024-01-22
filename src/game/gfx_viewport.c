@@ -121,6 +121,7 @@ void setBleedMap(int x, int y, int8_t v) {
 #endif
 
 void MapDrawing_init(void) {
+    /* initializes the map viewport */
     SightMap_init();
     viewportOffsetP.width = (screenSizeP.width - (tileSizeP.width * viewportSizeT.width)) / 2;
     viewportOffsetP.height = (screenSizeP.height - (tileSizeP.height * viewportSizeT.height)) / 2;
@@ -128,24 +129,19 @@ void MapDrawing_init(void) {
     viewportHalfSizeT.height = (viewportSizeT.height - 1) / 2;
     animSprites_set = IntSet_new(viewportSizeT.width * viewportSizeT.height * 3);
     animSprites = (int*) GMalloc(viewportSizeT.width * viewportSizeT.height * 3 * sizeof(int), "animSprites");
-    b = EngineBitmap_new("tiles/player 00");  // TODO
+    b = EngineBitmap_new("tiles/player 00");  // TODO don't hardcode
 
-    // TODO we should add a 1 tile border to this!
     fogMap = (int8_t*) GMalloc((sightMapSize.height * 2) * (sightMapSize.width) * sizeof(int8_t), "fogMap");
     fogMapOld = (int8_t*) GMalloc((sightMapSize.height * 2) * (sightMapSize.width) * sizeof(int8_t), "fogMapOld");
     bleedMap = (int8_t*) GMalloc((sightMapSize.height * 2) * (sightMapSize.width) * sizeof(int8_t), "bleedMap");
     bleedMapOld = (int8_t*) GMalloc((sightMapSize.height * 2) * (sightMapSize.width) * sizeof(int8_t), "bleedMapOld");
-
-//    fogMap = (int8_t*) GMalloc(viewportSizeT.height * 2 * viewportSizeT.width * sizeof(int8_t), "fogMap");
-//    fogMapOld = (int8_t*) GMalloc(viewportSizeT.height * 2 * viewportSizeT.width * sizeof(int8_t), "fogMapOld");
-//    bleedMap = (int8_t*) GMalloc(viewportSizeT.height * 2 * viewportSizeT.width * sizeof(int8_t), "bleedMap");
-//    bleedMapOld = (int8_t*) GMalloc(viewportSizeT.height * 2 * viewportSizeT.width * sizeof(int8_t), "bleedMapOld");
 
     calculateSight(Player_getPosition());
     generateFogMap(Player_getPosition());
 }
 
 void MapDrawing_delete(void) {
+    /* shuts down the map drawing viewport */
     SightMap_delete();
     IntSet_delete(animSprites_set);
     GFree(animSprites, "animSprites");
@@ -162,6 +158,7 @@ GraphicsState getGraphicsState(void) {
 }
 
 bool updateRunning(void) {
+    /* redraws the entire map viewport */
     if (advanceFrames() || redrawRequested) {
         Engine_clearFrame();
         if (animSprites_recountFlag) {
@@ -177,6 +174,36 @@ bool updateRunning(void) {
                           viewportHalfSizeT.height * tileSizeP.height + viewportOffsetP.height);
         updateDrawSecondPass();
         updateDrawThirdPass();
+
+
+
+        // DEBUG SIGHTMAP
+        for (int y = 0; y < sightMapSize.height; y++) { // 11 (= 9 + 2)
+            for (int x = 0; x < sightMapSize.width; x++) { // 15 (= 13 + 2)
+                if (getSightMap(x, y) == 0)
+                    Engine_setPixel(x * 2 + 4, y * 2 + 4, false);
+                else
+                    Engine_setPixel(x * 2 + 4, y * 2 + 4, true);
+            }
+        }
+
+        for (int y = 0; y < sightMapSize.height * 2; y++) { // 11 (= 9 + 2)
+            for (int x = 0; x < sightMapSize.width; x++) { // 15 (= 13 + 2)
+                if (getFogMap(x, y) == 0)
+                    Engine_setPixel(x * 2 + 4, y * 2 + 32, false);
+                else
+                    Engine_setPixel(x * 2 + 4, y * 2 + 32, true);
+            }
+        }
+
+        for (int y = 0; y < sightMapSize.height * 2; y++) { // 11 (= 9 + 2)
+            for (int x = 0; x < sightMapSize.width; x++) { // 15 (= 13 + 2)
+                if (getFogMapOld(x, y) == 0)
+                    Engine_setPixel(x * 2 + 4, y * 2 + 82, false);
+                else
+                    Engine_setPixel(x * 2 + 4, y * 2 + 82, true);
+            }
+        }
 
         Engine_drawRect(0, 0, screenSizeP.width, screenSizeP.height); // sdl
         redrawRequested = false;
@@ -268,29 +295,29 @@ void startScrolling(GameCommand command) {
     /* starts the scrolling; determines scroll direction based on player's movement */
     switch (command) {
         case GO_NORTH:
-            scrollDirection.x=0;
-            scrollDirection.y=1;
+            scrollDirection.x = 0;
+            scrollDirection.y = 1;
             scrollOffset.x = 0;
             scrollOffset.y = -(tileSizeP.height + 1);
             scrollCount = (int8_t)tileSizeP.height;
             break;
         case GO_SOUTH:
-            scrollDirection.x=0;
-            scrollDirection.y=-1;
+            scrollDirection.x = 0;
+            scrollDirection.y = -1;
             scrollOffset.x = 0;
             scrollOffset.y = tileSizeP.height + 1;
             scrollCount = (int8_t)tileSizeP.height;
             break;
         case GO_EAST:
-            scrollDirection.x=-1;
-            scrollDirection.y=0;
+            scrollDirection.x = -1;
+            scrollDirection.y = 0;
             scrollOffset.x = tileSizeP.width + 1;
             scrollOffset.y = 0;
             scrollCount = (int8_t)tileSizeP.width;
             break;
         case GO_WEST:
-            scrollDirection.x=1;
-            scrollDirection.y=0;
+            scrollDirection.x = 1;
+            scrollDirection.y = 0;
             scrollOffset.x = -(tileSizeP.width + 1);
             scrollOffset.y = 0;
             scrollCount = (int8_t)tileSizeP.width;
@@ -305,11 +332,14 @@ void startScrolling(GameCommand command) {
 }
 
 void generateFogMap(struct HCoordinate pp) {
-    // TODO
+    // TODO in theory, playerPosition should be the NEW position already... this means we're calculating
+    //      the correct fogmap that is for the target position (also check sublime notes)
+
     // memcpy fogMap to fogMapOld
     size_t size = sightMapSize.height * 2 * sightMapSize.width;
     memcpy(fogMapOld, fogMap, size * sizeof(int8_t));
     memcpy(bleedMapOld, bleedMap, size * sizeof(int8_t));
+    // clear fog and bleed map
     for (size_t i = 0; i < size; i++) {
         fogMap[i] = VISIBLE; // visible
         bleedMap[i] = 0;
@@ -337,48 +367,48 @@ void generateFogMap(struct HCoordinate pp) {
         }
     }
     // generate Bleed Tile Map
-//    for (int y = 1; y < (viewportSizeT.height * 2) - 1; y++) {
-//        for (int x = 1; x < viewportSizeT.width - 1; x++) {
-//            if (getFogMap(x, y) == 1) {
-//                int sumC = 0; // check cardinals
-//                sumC += (1 - getFogMap(x, y - 1)) * 2;  // TODO can we remove the 1 - ?
-//                sumC += (1 - getFogMap(x, y + 1)) * 34;
-//                sumC += (1 - getFogMap(x - 1, y)) * 5;
-//                sumC += (1 - getFogMap(x + 1, y)) * 13;
-//                switch (sumC) {
-//                    case 20: setFogMap(x, y, 0); break; // handle an edge case regarding bottom L bleed tiles
-//                    case  7: setBleedMap(x, y, L_BL); break; // l shape - b L bottomleft 1.png
-//                    case 39: setBleedMap(x, y, L_TL); break; // l shape - b L topleft 1.png
-//                    case 47: setBleedMap(x, y, L_TR); break; // l shape - b L topright 1.png
-//                    case 15: setBleedMap(x, y, L_BR); break; // l shape - b L bottomright 1.png
-//                    case  5: setBleedMap(x, y, T_L); break; // left    - b right 1.png
-//                    case 13: setBleedMap(x, y, T_R); break; // right   - b left 1.png
-//                    case  2: setBleedMap(x, y, T_B); break; // top     - b bottom 1.png
-//                    case 34: setBleedMap(x, y, T_T); break; // bottom  - b top 1.png
-//                    case 18: setBleedMap(x, y, U_T); break; // - U shaped tile top
-//                    case 52: setBleedMap(x, y, U_B); break; // - U shaped tile bottom
-//                }
-//                if (!(sumC == 0 || sumC == 5 || sumC == 13))
-//                    continue;
-//                int sumD = 0; // check diagonals & left-right
-//                sumD += (1 - getFogMap(x - 1, y - 1)); // 1
-//                sumD += (1 - getFogMap(x - 1, y + 1)) * 21;
-//                sumD += (1 - getFogMap(x + 1, y - 1)) * 3;
-//                sumD += (1 - getFogMap(x + 1, y + 1)) * 55;
-//                sumD += (1 - getFogMap(x - 1, y)) * 5;
-//                sumD += (1 - getFogMap(x + 1, y)) * 13;
-//                switch (sumD) {
-//                    case  1: setBleedMap(x, y, C_BR); break;  // corner - b corner bottomright 1.png
-//                    case 21: setBleedMap(x, y, C_TR); break;  // corner - b corner topright 1.png
-//                    case  3: setBleedMap(x, y, C_BL); break;  // corner - b corner bottomleft 1.png
-//                    case 55: setBleedMap(x, y, C_TL); break;  // corner - b corner topleft 1.png
-//                    case 76: setBleedMap(x, y, C_TLTR); break; // corner - b U3 1.png (topleft & topright)
-//                    case 82: setBleedMap(x, y, C_X); break;   // sumC == 5
-//                    case 92: setBleedMap(x, y, C_Y); break;   // sumC == 13
-//                }
-//            }
-//        }
-//    }
+    for (int y = 1; y < (viewportSizeT.height * 2) - 1; y++) {
+        for (int x = 1; x < viewportSizeT.width - 1; x++) {
+            if (getFogMap(x, y) == 1) {
+                int sumC = 0; // check cardinals
+                sumC += (1 - getFogMap(x, y - 1)) * 2;  // TODO can we remove the 1 - ?
+                sumC += (1 - getFogMap(x, y + 1)) * 34;
+                sumC += (1 - getFogMap(x - 1, y)) * 5;
+                sumC += (1 - getFogMap(x + 1, y)) * 13;
+                switch (sumC) {
+                    case 20: setFogMap(x, y, 0); break; // handle an edge case regarding bottom L bleed tiles
+                    case  7: setBleedMap(x, y, L_BL); break; // l shape - b L bottomleft 1.png
+                    case 39: setBleedMap(x, y, L_TL); break; // l shape - b L topleft 1.png
+                    case 47: setBleedMap(x, y, L_TR); break; // l shape - b L topright 1.png
+                    case 15: setBleedMap(x, y, L_BR); break; // l shape - b L bottomright 1.png
+                    case  5: setBleedMap(x, y, T_L); break; // left    - b right 1.png
+                    case 13: setBleedMap(x, y, T_R); break; // right   - b left 1.png
+                    case  2: setBleedMap(x, y, T_B); break; // top     - b bottom 1.png
+                    case 34: setBleedMap(x, y, T_T); break; // bottom  - b top 1.png
+                    case 18: setBleedMap(x, y, U_T); break; // - U shaped tile top
+                    case 52: setBleedMap(x, y, U_B); break; // - U shaped tile bottom
+                }
+                if (!(sumC == 0 || sumC == 5 || sumC == 13))
+                    continue;
+                int sumD = 0; // check diagonals & left-right
+                sumD += (1 - getFogMap(x - 1, y - 1)); // 1
+                sumD += (1 - getFogMap(x - 1, y + 1)) * 21;
+                sumD += (1 - getFogMap(x + 1, y - 1)) * 3;
+                sumD += (1 - getFogMap(x + 1, y + 1)) * 55;
+                sumD += (1 - getFogMap(x - 1, y)) * 5;
+                sumD += (1 - getFogMap(x + 1, y)) * 13;
+                switch (sumD) {
+                    case  1: setBleedMap(x, y, C_BR); break;  // corner - b corner bottomright 1.png
+                    case 21: setBleedMap(x, y, C_TR); break;  // corner - b corner topright 1.png
+                    case  3: setBleedMap(x, y, C_BL); break;  // corner - b corner bottomleft 1.png
+                    case 55: setBleedMap(x, y, C_TL); break;  // corner - b corner topleft 1.png
+                    case 76: setBleedMap(x, y, C_TLTR); break; // corner - b U3 1.png (topleft & topright)
+                    case 82: setBleedMap(x, y, C_X); break;   // sumC == 5
+                    case 92: setBleedMap(x, y, C_Y); break;   // sumC == 13
+                }
+            }
+        }
+    }
 }
 
 /***************************************************************
@@ -394,28 +424,28 @@ void calculateMapDrawingVariables(struct HCoordinate pp) {
     mapDrawEnd.y = viewportSizeT.height + mapDrawStart.y;
     rightScrollAdjust.width = viewportOffsetP.width;
     rightScrollAdjust.height = viewportOffsetP.height;
-    fogScrollAdjust.width = 0;
-    fogScrollAdjust.height = 0;
+    fogScrollAdjust.x = 0;
+    fogScrollAdjust.y = 0;
     if (graphicsState == SCROLLING) {
-        if (scrollDirection.x > 0) {
+        if (scrollDirection.x > 0) {  // GO WEST (left)
             mapDrawEnd.x += 1;
-            fogScrollAdjust.width = -1;
+            fogScrollAdjust.x = -1;
         }
-        else if (scrollDirection.x < 0) {
+        else if (scrollDirection.x < 0) { // GO EAST (right)
             mapDrawStart.x -= 1;
             mapDrawEnd.x += 1;
             rightScrollAdjust.width -= 32;
-            fogScrollAdjust.width = 1;
+            fogScrollAdjust.x = 1;
         }
         if (scrollDirection.y > 0) {
             mapDrawEnd.y += 1;
-            fogScrollAdjust.height = -2;
+            fogScrollAdjust.y = -2;
         }
         else if (scrollDirection.y < 0) {
             mapDrawStart.y -= 1;
             mapDrawEnd.y += 1;
             rightScrollAdjust.height -= 32;
-            fogScrollAdjust.height = 2;
+            fogScrollAdjust.y = 2;
         }
     }
 }
@@ -467,23 +497,22 @@ void updateDrawThirdPass(void) {
         frameOut = 5 - frame;
     }
 
-    for (int mapy = 0, y = viewportOffsetP.height; mapy < viewportSizeT.height * 2 + 2; mapy++, y += 16) {
-        for (int mapx = 0, x = viewportOffsetP.width; mapx < viewportSizeT.width + 2; mapx++, x += tileSizeP.width) {
-//            int bleedTileOld = getBleedMapOld(mapx + fogScrollAdjust.width, mapy + fogScrollAdjust.height);
-//            int bleedTile = getBleedMap(mapx, mapy);
+    for (int mapy = 0, y = viewportOffsetP.height; mapy < sightMapSize.height * 2; mapy++, y += 16) {
+        for (int mapx = 0, x = viewportOffsetP.width; mapx < sightMapSize.width; mapx++, x += tileSizeP.width) {
+
+
+
+
             // fog
             int drawx = x + scrollOffset.x - 32; // 1 x 32 = border
             int drawy = y + scrollOffset.y - 32;
-            int fogTileOld = 1; // TODO which value?!
-
-            if (mapy + fogScrollAdjust.height < (sightMapSize.height * 2) &&
-                    mapy + fogScrollAdjust.height > 0 &&
-                    mapx + fogScrollAdjust.width < sightMapSize.width &&
-                    mapx + fogScrollAdjust.width > 0)
-                fogTileOld = getFogMapOld(mapx + fogScrollAdjust.width, mapy + fogScrollAdjust.height);
+            int fogTileOld = VISIBLE;
+            if (mapy + fogScrollAdjust.y < (sightMapSize.height * 2) &&
+                mapy + fogScrollAdjust.y >= 0 &&
+                mapx + fogScrollAdjust.x < sightMapSize.width &&
+                mapx + fogScrollAdjust.x >= 0)
+                fogTileOld = getFogMapOld(mapx + fogScrollAdjust.x, mapy + fogScrollAdjust.y);
             int fogTile = getFogMap(mapx, mapy);
-
-
             if (fogTileOld == 0 && fogTile == 0) {  // no change
                 drawTile(B_CTR, drawx, drawy, 0);
             }
@@ -495,51 +524,58 @@ void updateDrawThirdPass(void) {
                     drawTile(B_CTR, drawx, drawy, frameOut);
             }
 
-
-
-
+            // bleed
+            int ix = x + scrollOffset.x - 32;
+            int iy = y + scrollOffset.y - 32;
+            int bleedTileOld = EMPTY;
+            if (mapy + fogScrollAdjust.y < (sightMapSize.height * 2) &&
+                mapy + fogScrollAdjust.y >= 0 &&
+                mapx + fogScrollAdjust.x < sightMapSize.width &&
+                mapx + fogScrollAdjust.x >= 0)
+                bleedTileOld = getBleedMapOld(mapx + fogScrollAdjust.width, mapy + fogScrollAdjust.height);
+            int bleedTile = getBleedMap(mapx, mapy);
 
             // bleed
-//            if (bleedTileOld == bleedTile && bleedTile != EMPTY) { // no change
-//                drawTile(bleedTile, ix, iy, 0);
-//            } else if (bleedTileOld == EMPTY && bleedTile != EMPTY) { // fade in
-//                if (fogTileOld == INVISIBLE) // TODO
-//                    drawTile(bleedTile, ix, iy, 0);
-//                else
-//                    drawTile(bleedTile, ix, iy, frame);
-//            } else if (bleedTileOld != EMPTY && bleedTile == EMPTY) { // fade out
-//                if (fogTile == INVISIBLE)
-//                    drawTile(bleedTileOld, ix, iy, 0);
-//                else if (frameOut < 5)
-//                    drawTile(bleedTileOld, ix, iy, frameOut); // fr_out
-//            } else if (bleedTileOld != EMPTY) { // cross-fade
-//                if (bleedTile == C_BL || bleedTile == C_BR ||
-//                    bleedTile == C_TL || bleedTile == C_TR) { // L-tile
-//                    drawTile(bleedTile, ix, iy, 0);
-//                    if (frameOut < 5)
-//                        drawTile(bleedTileOld, ix, iy, frameOut);
-//                } else if (bleedTileOld == C_BL || bleedTileOld == C_BR ||
-//                           bleedTileOld == C_TL || bleedTileOld == C_TR) {
-//                    drawTile(bleedTile, ix, iy, frame);
-//                    drawTile(bleedTileOld, ix, iy, 0);
-//                } else if (bleedTile == U_T || bleedTile == U_B) {
-//                    drawTile(bleedTile, ix, iy, frame);
-//                    drawTile(bleedTileOld, ix, iy, 0);
-//                } else if (bleedTileOld == U_T || bleedTileOld == U_B) {
-//                    drawTile(bleedTile, ix, iy, 0);
-//                    if (frameOut < 5)
-//                        drawTile(bleedTileOld, ix, iy, frameOut);
-//                } else if (bleedTile == L_BL || bleedTile == L_TL ||
-//                           bleedTile == L_TR || bleedTile == L_BR) { // corner tile
-//                    drawTile(bleedTile, ix, iy, frame);
-//                    drawTile(bleedTileOld, ix, iy, 0);
-//                } else if (bleedTileOld == L_BL || bleedTileOld == L_TL ||
-//                           bleedTileOld == L_TR || bleedTileOld == L_BR) {
-//                    drawTile(bleedTile, ix, iy, 0);
-//                    if (frameOut < 5)
-//                        drawTile(bleedTileOld, ix, iy, frameOut);
-//                }
-//            }
+            if (bleedTileOld == bleedTile && bleedTile != EMPTY) { // no change
+                drawTile(bleedTile, ix, iy, 0);
+            } else if (bleedTileOld == EMPTY && bleedTile != EMPTY) { // fade in
+                if (fogTileOld == INVISIBLE) // TODO
+                    drawTile(bleedTile, ix, iy, 0);
+                else
+                    drawTile(bleedTile, ix, iy, frame);
+            } else if (bleedTileOld != EMPTY && bleedTile == EMPTY) { // fade out
+                if (fogTile == INVISIBLE)
+                    drawTile(bleedTileOld, ix, iy, 0);
+                else if (frameOut < 5)
+                    drawTile(bleedTileOld, ix, iy, frameOut); // fr_out
+            } else if (bleedTileOld != EMPTY) { // cross-fade
+                if (bleedTile == C_BL || bleedTile == C_BR ||
+                    bleedTile == C_TL || bleedTile == C_TR) { // L-tile
+                    drawTile(bleedTile, ix, iy, 0);
+                    if (frameOut < 5)
+                        drawTile(bleedTileOld, ix, iy, frameOut);
+                } else if (bleedTileOld == C_BL || bleedTileOld == C_BR ||
+                           bleedTileOld == C_TL || bleedTileOld == C_TR) {
+                    drawTile(bleedTile, ix, iy, frame);
+                    drawTile(bleedTileOld, ix, iy, 0);
+                } else if (bleedTile == U_T || bleedTile == U_B) {
+                    drawTile(bleedTile, ix, iy, frame);
+                    drawTile(bleedTileOld, ix, iy, 0);
+                } else if (bleedTileOld == U_T || bleedTileOld == U_B) {
+                    drawTile(bleedTile, ix, iy, 0);
+                    if (frameOut < 5)
+                        drawTile(bleedTileOld, ix, iy, frameOut);
+                } else if (bleedTile == L_BL || bleedTile == L_TL ||
+                           bleedTile == L_TR || bleedTile == L_BR) { // corner tile
+                    drawTile(bleedTile, ix, iy, frame);
+                    drawTile(bleedTileOld, ix, iy, 0);
+                } else if (bleedTileOld == L_BL || bleedTileOld == L_TL ||
+                           bleedTileOld == L_TR || bleedTileOld == L_BR) {
+                    drawTile(bleedTile, ix, iy, 0);
+                    if (frameOut < 5)
+                        drawTile(bleedTileOld, ix, iy, frameOut);
+                }
+            }
 
 
 

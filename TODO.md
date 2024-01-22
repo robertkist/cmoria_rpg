@@ -1,4 +1,10 @@
 
+FIX SIGHTMAP!
+
+make it run in Qt
+implement setpixel in Qt
+allow overdraw
+
 Playdate
 ========
 - update playdate SDK
